@@ -1,0 +1,87 @@
+import pygame
+
+clock = pygame.time.Clock() # переменная для регулировки времени смены кадров
+
+pygame.init()                                               # инициация игры
+screen = pygame.display.set_mode((1920, 1080))               # выбор размера экрана
+pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
+icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
+pygame.display.set_icon(icon)                               # установка иконки на приложение
+
+
+bg = pygame.image.load('images/background/background_1.png') # загрузка заднего фона
+
+run_right = [
+    pygame.image.load('images/player-right/1.png'),
+    pygame.image.load('images/player-right/2.png'),
+    pygame.image.load('images/player-right/3.png'),
+    pygame.image.load('images/player-right/4.png'),
+    pygame.image.load('images/player-right/5.png'),
+    pygame.image.load('images/player-right/6.png'),
+    pygame.image.load('images/player-right/7.png'),
+    pygame.image.load('images/player-right/8.png'),
+    pygame.image.load('images/player-right/9.png'),
+    pygame.image.load('images/player-right/10.png')
+] # загрузка пошаговой анимации спрайта персонажа движущегося в право
+
+run_left = [
+    pygame.image.load('images/player-left/1.png'),
+    pygame.image.load('images/player-left/2.png'),
+    pygame.image.load('images/player-left/3.png'),
+    pygame.image.load('images/player-left/4.png'),
+    pygame.image.load('images/player-left/5.png'),
+    pygame.image.load('images/player-left/6.png'),
+    pygame.image.load('images/player-left/7.png'),
+    pygame.image.load('images/player-left/8.png'),
+    pygame.image.load('images/player-left/9.png'),
+    pygame.image.load('images/player-left/10.png')
+] # загрузка пошаговой анимации спрайта персонажа движущегося в лево
+
+play_animation_count = 0                                    # счетчик анимации
+
+
+bg_x = 0
+bg_sound = pygame.mixer.Sound('sound/bg/ForestWalk-bg.mp3')
+bg_sound.play()
+
+player_speed = 40 # скорость перемещения игрока
+player_x = 150 # координата по Х игрока
+
+running = True                                              # переключатель цикла
+while running:                                              # основной цикл игры
+
+    screen.blit(bg, (bg_x, 0))                            # вывод заднего фона на экран
+    screen.blit(bg, (bg_x + 1920, 0))                     # вывод заднего фона на экран (для анимации)
+
+    keys = pygame.key.get_pressed()  # какая клавиша нажата
+
+    if keys[pygame.K_LEFT]:
+        screen.blit(run_left[play_animation_count], (player_x, 610)) # вывод персонажа на экран
+    else:
+        screen.blit(run_right[play_animation_count], (player_x, 610))  # вывод персонажа на экран
+
+
+
+    if keys[pygame.K_LEFT] and player_x > 50: # условия в лево для перемещения игрока и ограничение по перемещению
+        player_x -= player_speed
+    elif keys[pygame.K_RIGHT] and player_x < 1500: # условия в право для перемещения игрока и ограничение по перемещению
+        player_x += player_speed
+
+    if play_animation_count == 9:                           # условия перебора спрайтов игрока
+        play_animation_count = 0
+    else:
+        play_animation_count += 1
+
+    bg_x -= 10
+    if bg_x == -1920:
+        bg_x = 0
+
+    pygame.display.update()                                 # обновить экран (постоянно из-за цикла)
+
+    clock.tick(12)  # FPS
+
+    for event in pygame.event.get():                        # перебрать список событий
+        if event.type == pygame.QUIT:                       # если нажат крестит
+            running = False                                 # остановить основной цикл
+            pygame.quit()                                   # выходим из приложения
+
