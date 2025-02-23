@@ -46,6 +46,9 @@ bg_sound.play()
 
 player_speed = 40 # скорость перемещения игрока
 player_x = 150 # координата по Х игрока
+player_y = 150
+jump = True
+jump_counter = 6
 
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
@@ -66,6 +69,10 @@ while running:                                              # основной �
         player_x -= player_speed
     elif keys[pygame.K_RIGHT] and player_x < 1500: # условия в право для перемещения игрока и ограничение по перемещению
         player_x += player_speed
+
+    if not jump:
+        if keys[pygame.K_SPACE]:
+            jump = True
 
     if play_animation_count == 9:                           # условия перебора спрайтов игрока
         play_animation_count = 0
