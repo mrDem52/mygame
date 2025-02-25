@@ -37,6 +37,13 @@ run_left = [
     pygame.image.load('images/player-left/10.png')
 ] # загрузка пошаговой анимации спрайта персонажа движущегося в лево
 
+jump_up = [
+    pygame.image.load('images/player-jump/1.png'),
+    pygame.image.load('images/player-jump/2.png'),
+    pygame.image.load('images/player-jump/3.png'),
+    pygame.image.load('images/player-jump/4.png'),
+]  # загрузка прыжка анимации спрайта персонажа
+
 play_animation_count = 0                                    # счетчик анимации
 
 
