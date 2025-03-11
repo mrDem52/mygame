@@ -53,9 +53,9 @@ bg_sound.play()
 
 player_speed = 40 # скорость перемещения игрока
 player_x = 150 # координата по Х игрока
-player_y = 150
+player_y = 600 # координата по Y игрока
 jump = True
-jump_counter = 6
+jump_counter = 13
 
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
@@ -66,9 +66,9 @@ while running:                                              # основной �
     keys = pygame.key.get_pressed()  # какая клавиша нажата
 
     if keys[pygame.K_LEFT]:
-        screen.blit(run_left[play_animation_count], (player_x, 610)) # вывод персонажа на экран
+        screen.blit(run_left[play_animation_count], (player_x, player_y)) # вывод персонажа на экран
     else:
-        screen.blit(run_right[play_animation_count], (player_x, 610))  # вывод персонажа на экран
+        screen.blit(run_right[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
 
 
 
@@ -79,7 +79,17 @@ while running:                                              # основной �
 
     if not jump:
         if keys[pygame.K_SPACE]:
-            jump = True
+            jump = True # флаг прыжка
+    else:
+        if jump_counter >= - 13:
+            if jump_counter > 0:
+                player_y -= (jump_counter ** 2) / 2
+            else:
+                player_y += (jump_counter ** 2) / 2
+            jump_counter -= 1
+        else:
+            jump = False
+            jump_counter = 13
 
     if play_animation_count == 9:                           # условия перебора спрайтов игрока
         play_animation_count = 0
