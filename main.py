@@ -57,7 +57,7 @@ player_speed = 40 # скорость перемещения игрока
 player_x = 150 # координата по Х игрока
 player_y = 600 # координата по Y игрока
 jump = True
-jump_counter = 13
+jump_counter = - 13
 
 enemy_girl = [
     pygame.image.load('images/enemy-1/enemy-girl-1.png'),
