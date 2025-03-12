@@ -59,17 +59,14 @@ player_y = 600 # координата по Y игрока
 jump = True
 jump_counter = - 13
 
-enemy_girl = [
-    pygame.image.load('images/enemy-1/enemy-girl-1.png'),
-    pygame.image.load('images/enemy-1/enemy-girl-2.png'),
-    pygame.image.load('images/enemy-1/enemy-girl-3.png')
-] # анимация врага - 1
+enemy_girl = pygame.image.load('images/enemy-1/enemy-girl-3.png')
+
 enemy_girl_game = []
-enemy_girl_x = random.randrange(1200, 1800, 200)
-enemy_girl_y = random.randrange(500, 800, 100)
-play_animation_enemy_girl = 0
+
+
+
 enemy_timer = pygame.USEREVENT + 1 # создаем событие для врага
-pygame.time.set_timer(enemy_timer, 1000)
+pygame.time.set_timer(enemy_timer, 2500)
 
 
 running = True                                              # переключатель цикла
@@ -77,15 +74,17 @@ while running:                                              # основной �
 
     screen.blit(bg, (bg_x, 0))                            # вывод заднего фона на экран
     screen.blit(bg, (bg_x + 1920, 0))                     # вывод заднего фона на экран (для анимации)
-    screen.blit(enemy_girl[play_animation_enemy_girl],(enemy_girl_x, enemy_girl_y))
-
-    if play_animation_enemy_girl != 2: play_animation_enemy_girl += 1
-
     player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y)) # рамка столкновения
-    enemy_girl_rec_collision = enemy_girl[1].get_rect(topleft=(enemy_girl_x, enemy_girl_y)) # рамка столкновения
 
-    if player_rec_collision.colliderect(enemy_girl_rec_collision): # проверка столкновения
-        print('Boom!')
+    if enemy_girl_game:
+        for enemy in enemy_girl_game:
+            screen.blit(enemy_girl, enemy)
+            enemy.x -= 40
+
+            if player_rec_collision.colliderect(enemy):
+                print('BOOM')
+
+
 
 
 
@@ -126,15 +125,19 @@ while running:                                              # основной �
     if bg_x == -1920:
         bg_x = 0
 
-    enemy_girl_x -= 40 * 1.5
+
     pygame.display.update()                                 # обновить экран (постоянно из-за цикла)
 
     clock.tick(12)  # FPS
 
+
     for event in pygame.event.get():                        # перебрать список событий
-        if event.type == pygame.QUIT:                       # если нажат крестит
+        if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]: # если нажат крестит или esc
             running = False                                 # остановить основной цикл
             pygame.quit()                                   # выходим из приложения
+        if event.type == enemy_timer:
+            enemy_girl_game.append(enemy_girl.get_rect(topleft=(random.randrange(1800, 2000, 100),
+                                                                random.randrange(400, 600, 50))))
 
 
 
