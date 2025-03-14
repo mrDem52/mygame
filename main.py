@@ -68,62 +68,87 @@ enemy_girl_game = []
 enemy_timer = pygame.USEREVENT + 1 # создаем событие для врага
 pygame.time.set_timer(enemy_timer, 2500)
 
+on_game = True # игра запущена
+
+label = pygame.font.Font('fonts/VariableFont.ttf', 150)
+lose_label = label.render('YOU LOSE!', False, (193, 196, 199))
+restart_label = label.render('TRY AGAIN!', False, (15, 96, 109))
+restart_label_rec = restart_label.get_rect(topleft=(1920/1/3, 1080/2))
 
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
 
     screen.blit(bg, (bg_x, 0))                            # вывод заднего фона на экран
     screen.blit(bg, (bg_x + 1920, 0))                     # вывод заднего фона на экран (для анимации)
-    player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y)) # рамка столкновения
 
-    if enemy_girl_game:
-        for enemy in enemy_girl_game:
-            screen.blit(enemy_girl, enemy)
-            enemy.x -= 40
+    if on_game:
+        player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y)) # рамка столкновения
 
-            if player_rec_collision.colliderect(enemy):
-                print('BOOM')
+        if enemy_girl_game:
+            for (id, enemy) in enumerate(enemy_girl_game): # перебор по объектам и нумерации
+                screen.blit(enemy_girl, enemy)
+                enemy.x -= 40
 
+                if enemy.x < - 50: # проверка врага за экраном
 
+                    enemy_girl_game.pop(id) # удаление врага из списка
 
-
-
-    keys = pygame.key.get_pressed()  # какая клавиша нажата
-
-    if keys[pygame.K_LEFT]:
-        screen.blit(run_left[play_animation_count], (player_x, player_y)) # вывод персонажа на экран
-    else:
-        screen.blit(run_right[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
+                if player_rec_collision.colliderect(enemy):
+                    on_game = False
 
 
 
-    if keys[pygame.K_LEFT] and player_x > 50: # условия в лево для перемещения игрока и ограничение по перемещению
-        player_x -= player_speed
-    elif keys[pygame.K_RIGHT] and player_x < 1500: # условия в право для перемещения игрока и ограничение по перемещению
-        player_x += player_speed
 
-    if not jump:
-        if keys[pygame.K_SPACE]:
-            jump = True # флаг прыжка
-    else:
-        if jump_counter >= - 13:
-            if jump_counter > 0:
-                player_y -= (jump_counter ** 2) / 2
-            else:
-                player_y += (jump_counter ** 2) / 2
-            jump_counter -= 1
+
+
+        keys = pygame.key.get_pressed()  # какая клавиша нажата
+
+        if keys[pygame.K_LEFT]:
+            screen.blit(run_left[play_animation_count], (player_x, player_y)) # вывод персонажа на экран
         else:
-            jump = False
-            jump_counter = 13
+            screen.blit(run_right[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
 
-    if play_animation_count == 9:                           # условия перебора спрайтов игрока
-        play_animation_count = 0
+
+
+        if keys[pygame.K_LEFT] and player_x > 50: # условия в лево для перемещения игрока и ограничение по перемещению
+            player_x -= player_speed
+        elif keys[pygame.K_RIGHT] and player_x < 1500: # условия в право для перемещения игрока и ограничение по перемещению
+            player_x += player_speed
+
+        if not jump:
+            if keys[pygame.K_SPACE]:
+                jump = True # флаг прыжка
+        else:
+            if jump_counter >= - 13:
+                if jump_counter > 0:
+                    player_y -= (jump_counter ** 2) / 2
+                else:
+                    player_y += (jump_counter ** 2) / 2
+                jump_counter -= 1
+            else:
+                jump = False
+                jump_counter = 13
+
+        if play_animation_count == 9:                           # условия перебора спрайтов игрока
+            play_animation_count = 0
+        else:
+            play_animation_count += 1
+
+        bg_x -= 10
+        if bg_x == -1920:
+            bg_x = 0
     else:
-        play_animation_count += 1
+        screen.fill((87, 88, 89))
+        screen.blit(lose_label, (1920/1/3, 1080/1/3))
+        screen.blit(restart_label, restart_label_rec)
+        bg_sound.stop()
+        where_mouse = pygame.mouse.get_pos()
+        if restart_label_rec.collidepoint(where_mouse) and pygame.mouse.get_pressed()[0]:
+            on_game = True
+            enemy_girl_game.clear()
+            bg_sound.play()
 
-    bg_x -= 10
-    if bg_x == -1920:
-        bg_x = 0
+
 
 
     pygame.display.update()                                 # обновить экран (постоянно из-за цикла)
