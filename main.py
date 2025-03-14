@@ -145,9 +145,13 @@ while running:                                              # основной �
             shurikens.append(shuriken.get_rect(topleft=(player_x + 100, player_y + 100)))
 
         if shurikens:
-            for elem in shurikens:
+            for (i, elem) in enumerate(shurikens):
                 screen.blit(shuriken, (elem.x, elem.y))
                 elem.x += 40
+
+                if elem.x > 1920:
+                    shurikens.pop(i)
+
 
     else:
         screen.fill((87, 88, 89))
@@ -159,7 +163,7 @@ while running:                                              # основной �
             on_game = True
             enemy_girl_game.clear()
             bg_sound.play()
-
+            shurikens.clear()
 
 
 
