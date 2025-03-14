@@ -1,5 +1,5 @@
 import random
-
+from weapon import Weapon
 import pygame
 
 clock = pygame.time.Clock() # переменная для регулировки времени смены кадров
@@ -75,6 +75,9 @@ lose_label = label.render('YOU LOSE!', False, (193, 196, 199))
 restart_label = label.render('TRY AGAIN!', False, (15, 96, 109))
 restart_label_rec = restart_label.get_rect(topleft=(1920/1/3, 1080/2))
 
+shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
+shurikens = []
+
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
 
@@ -137,6 +140,15 @@ while running:                                              # основной �
         bg_x -= 10
         if bg_x == -1920:
             bg_x = 0
+
+        if keys[pygame.K_LCTRL]:
+            shurikens.append(shuriken.get_rect(topleft=(player_x + 100, player_y + 100)))
+
+        if shurikens:
+            for elem in shurikens:
+                screen.blit(shuriken, (elem.x, elem.y))
+                elem.x += 40
+
     else:
         screen.fill((87, 88, 89))
         screen.blit(lose_label, (1920/1/3, 1080/1/3))
@@ -162,7 +174,7 @@ while running:                                              # основной �
             pygame.quit()                                   # выходим из приложения
         if event.type == enemy_timer:
             enemy_girl_game.append(enemy_girl.get_rect(topleft=(random.randrange(1800, 2000, 100),
-                                                                random.randrange(400, 600, 50))))
+                                                                random.randrange(200, 600, 50))))
 
 
 
