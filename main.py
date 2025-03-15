@@ -77,7 +77,7 @@ restart_label_rec = restart_label.get_rect(topleft=(1920/1/3, 1080/2))
 
 shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
 shurikens = []
-
+shuriken_rec_collision = shuriken.get_rect()
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
 
@@ -90,7 +90,7 @@ while running:                                              # основной �
         if enemy_girl_game:
             for (id, enemy) in enumerate(enemy_girl_game): # перебор по объектам и нумерации
                 screen.blit(enemy_girl, enemy)
-                enemy.x -= 40
+                enemy.x -= 10
 
                 if enemy.x < - 50: # проверка врага за экраном
 
@@ -104,7 +104,7 @@ while running:                                              # основной �
 
 
 
-        keys = pygame.key.get_pressed()  # какая клавиша нажата
+        keys = pygame.key.get_pressed()  # какая клавиша нажата (список)
 
         if keys[pygame.K_LEFT]:
             screen.blit(run_left[play_animation_count], (player_x, player_y)) # вывод персонажа на экран
@@ -151,6 +151,13 @@ while running:                                              # основной �
 
                 if elem.x > 1920:
                     shurikens.pop(i)
+
+                if enemy_girl_game:
+                    for (index, enemy_el) in enumerate(enemy_girl_game):
+                        if elem.colliderect(enemy_el):
+                            enemy_girl_game.pop(index)
+                            shurikens.pop(i)
+                        
 
 
     else:
