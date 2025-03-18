@@ -66,7 +66,7 @@ enemy_girl_game = []
 
 
 enemy_timer = pygame.USEREVENT + 1 # создаем событие для врага
-pygame.time.set_timer(enemy_timer, 2500)
+pygame.time.set_timer(enemy_timer, 6500)
 
 on_game = True # игра запущена
 
@@ -181,7 +181,7 @@ while running:                                              # основной �
 
     pygame.display.update()                                 # обновить экран (постоянно из-за цикла)
 
-    clock.tick(12)  # FPS
+    clock.tick(20)  # FPS
 
 
     for event in pygame.event.get():                        # перебрать список событий
