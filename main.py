@@ -57,7 +57,7 @@ player_speed = 40 # скорость перемещения игрока
 player_x = 150 # координата по Х игрока
 player_y = 600 # координата по Y игрока
 jump = True
-jump_counter = - 13
+jump_counter = - 14
 
 enemy_girl = pygame.image.load('images/enemy-1/enemy-girl-3.png')
 
@@ -78,6 +78,10 @@ restart_label_rec = restart_label.get_rect(topleft=(1920/1/3, 1080/2))
 shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
 shurikens = []
 shuriken_rec_collision = shuriken.get_rect()
+shuriken_col = 5
+shuriken_sound = pygame.mixer.Sound('sound/effects/throw a shuriken/throw.mp3')
+shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
+
 running = True                                              # переключатель цикла
 while running:                                              # основной цикл игры
 
@@ -122,7 +126,7 @@ while running:                                              # основной �
             if keys[pygame.K_SPACE]:
                 jump = True # флаг прыжка
         else:
-            if jump_counter >= - 13:
+            if jump_counter >= - 14:
                 if jump_counter > 0:
                     player_y -= (jump_counter ** 2) / 2
                 else:
@@ -130,7 +134,7 @@ while running:                                              # основной �
                 jump_counter -= 1
             else:
                 jump = False
-                jump_counter = 13
+                jump_counter = 14
 
         if play_animation_count == 9:                           # условия перебора спрайтов игрока
             play_animation_count = 0
@@ -141,13 +145,12 @@ while running:                                              # основной �
         if bg_x == -1920:
             bg_x = 0
 
-        if keys[pygame.K_LCTRL]:
-            shurikens.append(shuriken.get_rect(topleft=(player_x + 100, player_y + 100)))
+
 
         if shurikens:
             for (i, elem) in enumerate(shurikens):
                 screen.blit(shuriken, (elem.x, elem.y))
-                elem.x += 40
+                elem.x += 80
 
                 if elem.x > 1920:
                     shurikens.pop(i)
@@ -155,6 +158,7 @@ while running:                                              # основной �
                 if enemy_girl_game:
                     for (index, enemy_el) in enumerate(enemy_girl_game):
                         if elem.colliderect(enemy_el):
+                            shuriken_climbing.play()
                             enemy_girl_game.pop(index)
                             shurikens.pop(i)
                         
@@ -171,6 +175,7 @@ while running:                                              # основной �
             enemy_girl_game.clear()
             bg_sound.play()
             shurikens.clear()
+            shuriken_col = 5
 
 
 
@@ -183,6 +188,11 @@ while running:                                              # основной �
         if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]: # если нажат крестит или esc
             running = False                                 # остановить основной цикл
             pygame.quit()                                   # выходим из приложения
+        if on_game and event.type == pygame.KEYUP and event.key == pygame.K_LCTRL and shuriken_col > 0:
+            shurikens.append(shuriken.get_rect(topleft=(player_x + 100, player_y + 100)))
+            shuriken_col -= 1
+            shuriken_sound.play()
+
         if event.type == enemy_timer:
             enemy_girl_game.append(enemy_girl.get_rect(topleft=(random.randrange(1800, 2000, 100),
                                                                 random.randrange(200, 600, 50))))
