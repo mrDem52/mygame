@@ -1,6 +1,34 @@
 import random
 from weapon import Weapon
+from menu import Button
 import pygame
+import sys
+
+# Параметры экрана
+WIDTH, HEIGHT = 1920, 1080
+
+pygame.init()                                               # инициация игры
+screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))               # выбор размера экрана
+pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
+icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
+pygame.display.set_icon(icon)
+
+def main_menu():
+    running_menu = True
+    while running_menu:
+
+
+
+        for event_menu in pygame.event.get():
+            if event_menu.type == pygame.QUIT:
+                running_menu = False
+                pygame.quit()
+                sys.exit()
+
+main_menu()
+
+
+
 
 clock = pygame.time.Clock() # переменная для регулировки времени смены кадров
 
@@ -9,6 +37,9 @@ screen = pygame.display.set_mode((1920, 1080))               # выбор раз
 pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)                               # установка иконки на приложение
+
+
+
 
 
 bg = pygame.image.load('images/background/background_1.png') # загрузка заднего фона
