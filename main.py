@@ -13,7 +13,9 @@ pygame.display.set_caption('Бегущий ниндзя')                # на�
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
-first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Button', 'images/icons/button/btn-1.png')
+first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Button',
+                      'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                      'sound/effects/click_button/klik.mp3')
 
 def main_menu():
     running_menu = True
@@ -27,6 +29,7 @@ def main_menu():
                 running_menu = False
                 pygame.quit()
                 sys.exit()
+            first_button.handle_event(event_menu)
         first_button.check_hover(pygame.mouse.get_pos())
         first_button.draw_btn(screen_nemu)
         pygame.display.flip()
