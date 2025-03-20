@@ -5,7 +5,7 @@ import pygame
 import sys
 
 # Параметры экрана
-WIDTH, HEIGHT = 1920, 1080
+WIDTH, HEIGHT = 600, 550
 
 pygame.init()                                               # инициация игры
 screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))               # выбор размера экрана
@@ -13,9 +13,12 @@ pygame.display.set_caption('Бегущий ниндзя')                # на�
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
+first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Button', 'images/icons/button/btn-1.png')
+
 def main_menu():
     running_menu = True
     while running_menu:
+        screen_nemu.fill((0, 0, 0))
 
 
 
@@ -24,6 +27,9 @@ def main_menu():
                 running_menu = False
                 pygame.quit()
                 sys.exit()
+        first_button.check_hover(pygame.mouse.get_pos())
+        first_button.draw_btn(screen_nemu)
+        pygame.display.flip()
 
 main_menu()
 
