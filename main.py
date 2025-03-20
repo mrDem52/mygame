@@ -15,12 +15,17 @@ pygame.display.set_icon(icon)
 
 first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Button',
                       'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                      'sound/effects/click_button/klik.mp3')
+                      'sound/effects/click_button/click.wav')
 
 def main_menu():
     running_menu = True
     while running_menu:
         screen_nemu.fill((0, 0, 0))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render('Бегущий нинзя', True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(300, 50))
+        screen_nemu.blit(text_surface, text_rect)
 
 
 
@@ -29,6 +34,7 @@ def main_menu():
                 running_menu = False
                 pygame.quit()
                 sys.exit()
+
             first_button.handle_event(event_menu)
         first_button.check_hover(pygame.mouse.get_pos())
         first_button.draw_btn(screen_nemu)
