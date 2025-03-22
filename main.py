@@ -13,19 +13,33 @@ pygame.display.set_caption('Бегущий ниндзя')                # на�
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
-first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Button',
-                      'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                      'sound/effects/click_button/click.wav')
+main_bg = pygame.image.load('images/background/menu/title.png')
+
 
 def main_menu():
+
+
+    first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Играть',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+    second_button = Button(WIDTH/2-(252/2), 200, 252, 74, 'Настройки',
+                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                           'sound/effects/click_button/click.mp3')
+    third_button = Button(WIDTH/2-(252/2), 300, 252, 74, 'Выход',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
     running_menu = True
     while running_menu:
         screen_nemu.fill((0, 0, 0))
+        screen_nemu.blit(main_bg, (-250, -200))
 
         font = pygame.font.Font(None, 72)
-        text_surface = font.render('Бегущий нинзя', True, (255, 255, 255))
+        text_surface = font.render('Бегущий ниндзя', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
+
+
+
 
 
 
@@ -34,11 +48,64 @@ def main_menu():
                 running_menu = False
                 pygame.quit()
                 sys.exit()
+            if event_menu.type == pygame.USEREVENT and event_menu.button == first_button:
+                running_menu = False
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == second_button:
+                settings_menu()
+                print('h1')
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == third_button:
+                pygame.quit()
+                sys.exit()
 
             first_button.handle_event(event_menu)
+
+            second_button.handle_event(event_menu)
+
+            third_button.handle_event(event_menu)
+
         first_button.check_hover(pygame.mouse.get_pos())
         first_button.draw_btn(screen_nemu)
+
+        second_button.check_hover(pygame.mouse.get_pos())
+        second_button.draw_btn(screen_nemu)
+
+        third_button.check_hover(pygame.mouse.get_pos())
+        third_button.draw_btn(screen_nemu)
+
         pygame.display.flip()
+def settings_menu():
+
+    fourth_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Звук',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Изображение',
+                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                           'sound/effects/click_button/click.mp3')
+    sixth_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Назад',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+
+    running_menu = True
+    while running_menu:
+
+        screen_nemu.fill((0, 0, 0))
+        screen_nemu.blit(main_bg, (0, 0))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render('Бегущий ниндзя', True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(300, 50))
+        screen_nemu.blit(text_surface, text_rect)
+
+        fourth_button.check_hover(pygame.mouse.get_pos())
+        fourth_button.draw_btn(screen_nemu)
+
+        fifth_button.check_hover(pygame.mouse.get_pos())
+        fifth_button.draw_btn(screen_nemu)
+
+        sixth_button.check_hover(pygame.mouse.get_pos())
+        sixth_button.draw_btn(screen_nemu)
 
 main_menu()
 
@@ -58,6 +125,7 @@ pygame.display.set_icon(icon)                               # установка
 
 
 bg = pygame.image.load('images/background/background_1.png') # загрузка заднего фона
+
 
 run_right = [
     pygame.image.load('images/player-right/1.png'),
