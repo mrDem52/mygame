@@ -29,6 +29,7 @@ def main_menu():
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
     running_menu = True
+
     while running_menu:
         screen_nemu.fill((0, 0, 0))
         screen_nemu.blit(main_bg, (-250, -200))
@@ -37,10 +38,6 @@ def main_menu():
         text_surface = font.render('Бегущий ниндзя', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
-
-
-
-
 
 
         for event_menu in pygame.event.get():
@@ -52,29 +49,22 @@ def main_menu():
                 running_menu = False
 
             if event_menu.type == pygame.USEREVENT and event_menu.button == second_button:
-                settings_menu()
-                print('h1')
+               settings_menu()
 
             if event_menu.type == pygame.USEREVENT and event_menu.button == third_button:
                 pygame.quit()
                 sys.exit()
 
-            first_button.handle_event(event_menu)
+            for btn in [first_button, second_button, third_button]:
+                btn.handle_event(event_menu)
 
-            second_button.handle_event(event_menu)
-
-            third_button.handle_event(event_menu)
-
-        first_button.check_hover(pygame.mouse.get_pos())
-        first_button.draw_btn(screen_nemu)
-
-        second_button.check_hover(pygame.mouse.get_pos())
-        second_button.draw_btn(screen_nemu)
-
-        third_button.check_hover(pygame.mouse.get_pos())
-        third_button.draw_btn(screen_nemu)
+        for btn in [first_button, second_button, third_button]:
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw_btn(screen_nemu)
 
         pygame.display.flip()
+
+
 def settings_menu():
 
     fourth_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Звук',
@@ -94,18 +84,26 @@ def settings_menu():
         screen_nemu.blit(main_bg, (0, 0))
 
         font = pygame.font.Font(None, 72)
-        text_surface = font.render('Бегущий ниндзя', True, (255, 255, 255))
+        text_surface = font.render('Настройки', True, (255, 255, 255))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
 
-        fourth_button.check_hover(pygame.mouse.get_pos())
-        fourth_button.draw_btn(screen_nemu)
+        for event_menu in pygame.event.get():
+            if event_menu.type == pygame.QUIT:
+                running_menu = False
+                pygame.quit()
+                sys.exit()
+            if event_menu.type == pygame.USEREVENT and event_menu.button == sixth_button:
+                running_menu = False
 
-        fifth_button.check_hover(pygame.mouse.get_pos())
-        fifth_button.draw_btn(screen_nemu)
+            for btn in [fourth_button, fifth_button, sixth_button]:
+                btn.handle_event(event_menu)
 
-        sixth_button.check_hover(pygame.mouse.get_pos())
-        sixth_button.draw_btn(screen_nemu)
+        for btn in [fourth_button, fifth_button, sixth_button]:
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw_btn(screen_nemu)
+        pygame.display.flip()
+
 
 main_menu()
 
