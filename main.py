@@ -95,6 +95,8 @@ def settings_menu():
                 sys.exit()
             if event_menu.type == pygame.USEREVENT and event_menu.button == sixth_button:
                 running_menu = False
+            if event_menu.type == pygame.USEREVENT and event_menu.button == fifth_button:
+                video_settings_menu()
 
             for btn in [fourth_button, fifth_button, sixth_button]:
                 btn.handle_event(event_menu)
@@ -104,6 +106,62 @@ def settings_menu():
             btn.draw_btn(screen_nemu)
         pygame.display.flip()
 
+def video_settings_menu():
+    global WIDTH, HEIGHT, screen_nemu
+    video_1_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, '960x600',
+                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                           'sound/effects/click_button/click.mp3')
+    video_2_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, '1280x800',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+    video_3_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Full HD',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+    back_button = Button(WIDTH / 2 - (252 / 2), 400, 252, 74, 'Назад',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
+
+    running_settings_video = True
+
+    while running_settings_video:
+        screen_nemu.fill((0, 0, 0))
+        screen_nemu.blit(main_bg, (0, -200))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render('Разрешение экрана', True, (255, 255, 255))
+        text_rect = text_surface.get_rect(center=(300, 50))
+        screen_nemu.blit(text_surface, text_rect)
+
+        for event_menu in pygame.event.get():
+            if event_menu.type == pygame.QUIT:
+                running_settings_video = False
+                pygame.quit()
+                sys.exit()
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == video_1_button:
+                WIDTH, HEIGHT = 960, 600
+                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
+                running_settings_video = False
+            if event_menu.type == pygame.USEREVENT and event_menu.button == video_2_button:
+                WIDTH, HEIGHT = 1280, 800
+                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
+                running_settings_video = False
+            if event_menu.type == pygame.USEREVENT and event_menu.button == video_3_button:
+                WIDTH, HEIGHT = 1920, 1080
+                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
+                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
+                running_settings_video = False
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == back_button:
+                running_settings_video = False
+
+            for btn in [video_1_button, video_2_button, video_3_button, back_button]:
+                btn.handle_event(event_menu)
+
+        for btn in [video_1_button, video_2_button, video_3_button, back_button]:
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw_btn(screen_nemu)
+        pygame.display.flip()
 
 main_menu()
 
