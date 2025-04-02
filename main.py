@@ -70,7 +70,7 @@ def settings_menu():
     fourth_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Звук',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
-    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Изображение',
+    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Урпавление',
                            'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                            'sound/effects/click_button/click.mp3')
     sixth_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Назад',
@@ -96,28 +96,21 @@ def settings_menu():
             if event_menu.type == pygame.USEREVENT and event_menu.button == sixth_button:
                 running_menu = False
             if event_menu.type == pygame.USEREVENT and event_menu.button == fifth_button:
-                video_settings_menu()
+                controls_menu()
 
             for btn in [fourth_button, fifth_button, sixth_button]:
                 btn.handle_event(event_menu)
 
         for btn in [fourth_button, fifth_button, sixth_button]:
+            btn.set_position(WIDTH/2-(252/2))
             btn.check_hover(pygame.mouse.get_pos())
             btn.draw_btn(screen_nemu)
         pygame.display.flip()
 
-def video_settings_menu():
+def controls_menu():
     global WIDTH, HEIGHT, screen_nemu
-    video_1_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, '960x600',
-                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                           'sound/effects/click_button/click.mp3')
-    video_2_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, '1280x800',
-                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                          'sound/effects/click_button/click.mp3')
-    video_3_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Full HD',
-                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                          'sound/effects/click_button/click.mp3')
-    back_button = Button(WIDTH / 2 - (252 / 2), 400, 252, 74, 'Назад',
+
+    back_button = Button(WIDTH / 2 - (252 / 2), 450, 252, 74, 'Назад',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
 
@@ -138,50 +131,36 @@ def video_settings_menu():
                 pygame.quit()
                 sys.exit()
 
-            if event_menu.type == pygame.USEREVENT and event_menu.button == video_1_button:
-                WIDTH, HEIGHT = 960, 600
-                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
-                running_settings_video = False
-            if event_menu.type == pygame.USEREVENT and event_menu.button == video_2_button:
-                WIDTH, HEIGHT = 1280, 800
-                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
-                running_settings_video = False
-            if event_menu.type == pygame.USEREVENT and event_menu.button == video_3_button:
-                WIDTH, HEIGHT = 1920, 1080
-                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))
-                screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)
-                running_settings_video = False
+
 
             if event_menu.type == pygame.USEREVENT and event_menu.button == back_button:
                 running_settings_video = False
 
-            for btn in [video_1_button, video_2_button, video_3_button, back_button]:
-                btn.handle_event(event_menu)
 
-        for btn in [video_1_button, video_2_button, video_3_button, back_button]:
-            btn.check_hover(pygame.mouse.get_pos())
-            btn.draw_btn(screen_nemu)
+        back_button.handle_event(event_menu)
+
+
+        back_button.check_hover(pygame.mouse.get_pos())
+        back_button.draw_btn(screen_nemu)
         pygame.display.flip()
 
 main_menu()
 
 
 
-
 clock = pygame.time.Clock() # переменная для регулировки времени смены кадров
 
 pygame.init()                                               # инициация игры
-screen = pygame.display.set_mode((1920, 1080))               # выбор размера экрана
+screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)               # выбор размера экрана
 pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)                               # установка иконки на приложение
 
 
-
-
-
 bg = pygame.image.load('images/background/background_1.png') # загрузка заднего фона
 
+scale_factor = 1.3
+pygame.transform.scale(main_bg, (int(bg.get_width() * scale_factor), int(bg.get_height() * scale_factor)))
 
 run_right = [
     pygame.image.load('images/player-right/1.png'),
@@ -272,10 +251,6 @@ while running:                                              # основной �
 
                 if player_rec_collision.colliderect(enemy):
                     on_game = False
-
-
-
-
 
 
         keys = pygame.key.get_pressed()  # какая клавиша нажата (список)

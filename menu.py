@@ -24,7 +24,9 @@ class Button:
             self.sound = pygame.mixer.Sound(sound_path)
 
         self.is_hovered = False
-
+    def set_position(self, x, y = None):
+        self.x = x
+        self.rect = self.image.get_rect(topleft=(self.x, self.y))
     def draw_btn(self, screen):
         current_image = self.hover_image if self.is_hovered else self.image
         screen.blit(current_image,self.rect.topleft)
