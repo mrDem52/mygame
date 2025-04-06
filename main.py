@@ -9,12 +9,13 @@ WIDTH, HEIGHT = 600, 550
 
 pygame.init()                                               # инициация игры
 screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))               # выбор размера экрана
+
 pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
 icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
 main_bg = pygame.image.load('images/background/menu/title.png')
-
+lose_bg = pygame.image.load('images/background/lose/lose.jpg')
 
 def main_menu():
 
@@ -35,7 +36,7 @@ def main_menu():
         screen_nemu.blit(main_bg, (-250, -200))
 
         font = pygame.font.Font(None, 72)
-        text_surface = font.render('Бегущий ниндзя', True, (255, 255, 255))
+        text_surface = font.render('Бегущий ниндзя', True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
 
@@ -63,7 +64,6 @@ def main_menu():
             btn.draw_btn(screen_nemu)
 
         pygame.display.flip()
-
 
 def settings_menu():
 
@@ -97,6 +97,10 @@ def settings_menu():
                 running_menu = False
             if event_menu.type == pygame.USEREVENT and event_menu.button == fifth_button:
                 controls_menu()
+            if event_menu.type == pygame.USEREVENT and event_menu.button == fourth_button:
+                lose_menu()
+
+
 
             for btn in [fourth_button, fifth_button, sixth_button]:
                 btn.handle_event(event_menu)
@@ -110,38 +114,83 @@ def settings_menu():
 def controls_menu():
     global WIDTH, HEIGHT, screen_nemu
 
+    back_arrow_key = Button(150, 200, 72, 66, '',
+                            'images/icons/control/back.png', '',
+                            '')
+    forward_arrow_key = Button(250, 200, 72, 66, '',
+                          'images/icons/control/front.png', '',
+                          '')
+
+    attack_key = Button(350, 200, 103, 66, '',
+                          'images/icons/control/ctrl.png', '',
+                          '')
+    jump_key = Button(150, 300, 300, 66, '',
+                          'images/icons/control/space.png', '',
+                          '')
     back_button = Button(WIDTH / 2 - (252 / 2), 450, 252, 74, 'Назад',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
 
-    running_settings_video = True
+    running_settings_control = True
 
-    while running_settings_video:
+    while running_settings_control:
         screen_nemu.fill((0, 0, 0))
         screen_nemu.blit(main_bg, (0, -200))
 
         font = pygame.font.Font(None, 72)
-        text_surface = font.render('Разрешение экрана', True, (255, 255, 255))
+        text_surface = font.render('Управление', True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
 
         for event_menu in pygame.event.get():
             if event_menu.type == pygame.QUIT:
-                running_settings_video = False
+                running_settings_control = False
                 pygame.quit()
                 sys.exit()
 
 
 
             if event_menu.type == pygame.USEREVENT and event_menu.button == back_button:
-                running_settings_video = False
+                running_settings_control = False
 
 
-        back_button.handle_event(event_menu)
+            back_button.handle_event(event_menu)
 
 
         back_button.check_hover(pygame.mouse.get_pos())
         back_button.draw_btn(screen_nemu)
+        forward_arrow_key.draw_btn(screen_nemu)
+        back_arrow_key.draw_btn(screen_nemu)
+        attack_key.draw_btn(screen_nemu)
+        jump_key.draw_btn(screen_nemu)
+        pygame.display.flip()
+
+def lose_menu():
+    screen_lose = pygame.display.set_mode((1024, 800))
+    try_again_button = Button(500, 100, 252, 74, 'Попробуй еще',
+                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                           'sound/effects/click_button/click.mp3')
+    running_lose = True
+
+    while running_lose:
+        screen_lose.fill((0, 0, 0))
+        screen_lose.blit(lose_bg, (0, 0))
+
+        font = pygame.font.Font(None, 122)
+        text_surface = font.render('Ты проиграл', True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=(700, 100))
+        screen_lose.blit(text_surface, text_rect)
+        keys = pygame.key.get_pressed()
+        for event_lose in pygame.event.get():
+            if event_lose.type == pygame.QUIT or keys[pygame.K_ESCAPE]:
+                running_lose = False
+                pygame.quit()
+                sys.exit()
+
+
+
+
+
         pygame.display.flip()
 
 main_menu()
@@ -308,7 +357,7 @@ while running:                                              # основной �
                             shurikens.pop(i)
                         
 
-
+    # условие проигрыша
     else:
         screen.fill((87, 88, 89))
         screen.blit(lose_label, (1920/1/3, 1080/1/3))
