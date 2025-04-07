@@ -6,26 +6,25 @@ import sys
 # Параметры экрана
 WIDTH, HEIGHT = 600, 550
 
-pygame.init()                                               # инициация игры
-screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))               # выбор размера экрана
+pygame.init()  # инициация игры
+screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))  # выбор размера экрана
 
-pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
-icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
+pygame.display.set_caption('Бегущий ниндзя')  # название игры (подпись окна)
+icon = pygame.image.load('images/icons/icon-ninja.png')  # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
 main_bg = pygame.image.load('images/background/menu/title.png')
 lose_bg = pygame.image.load('images/background/lose/lose.jpg')
 
+
 def main_menu():
-
-
-    first_button = Button(WIDTH/2-(252/2), 100, 252, 74, 'Играть',
+    first_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Играть',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
-    second_button = Button(WIDTH/2-(252/2), 200, 252, 74, 'Настройки',
+    second_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Настройки',
                            'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                            'sound/effects/click_button/click.mp3')
-    third_button = Button(WIDTH/2-(252/2), 300, 252, 74, 'Выход',
+    third_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Выход',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
     running_menu = True
@@ -39,7 +38,6 @@ def main_menu():
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
 
-
         for event_menu in pygame.event.get():
             if event_menu.type == pygame.QUIT:
                 running_menu = False
@@ -48,9 +46,8 @@ def main_menu():
             if event_menu.type == pygame.USEREVENT and event_menu.button == first_button:
                 running_menu = False
 
-
             if event_menu.type == pygame.USEREVENT and event_menu.button == second_button:
-               settings_menu()
+                settings_menu()
 
             if event_menu.type == pygame.USEREVENT and event_menu.button == third_button:
                 pygame.quit()
@@ -65,14 +62,14 @@ def main_menu():
 
         pygame.display.flip()
 
-def settings_menu():
 
+def settings_menu():
     fourth_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Звук',
-                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                          'sound/effects/click_button/click.mp3')
-    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Урпавление',
                            'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                            'sound/effects/click_button/click.mp3')
+    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Урпавление',
+                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                          'sound/effects/click_button/click.mp3')
     sixth_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Назад',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
@@ -98,18 +95,17 @@ def settings_menu():
             if event_menu.type == pygame.USEREVENT and event_menu.button == fifth_button:
                 controls_menu()
             if event_menu.type == pygame.USEREVENT and event_menu.button == fourth_button:
-                lose_menu()
-
-
+                print('h1')
 
             for btn in [fourth_button, fifth_button, sixth_button]:
                 btn.handle_event(event_menu)
 
         for btn in [fourth_button, fifth_button, sixth_button]:
-            btn.set_position(WIDTH/2-(252/2))
+            btn.set_position(WIDTH / 2 - (252 / 2))
             btn.check_hover(pygame.mouse.get_pos())
             btn.draw_btn(screen_nemu)
         pygame.display.flip()
+
 
 def controls_menu():
     global WIDTH, HEIGHT, screen_nemu
@@ -118,18 +114,18 @@ def controls_menu():
                             'images/icons/control/back.png', '',
                             '')
     forward_arrow_key = Button(250, 200, 72, 66, '',
-                          'images/icons/control/front.png', '',
-                          '')
+                               'images/icons/control/front.png', '',
+                               '')
 
     attack_key = Button(350, 200, 103, 66, '',
-                          'images/icons/control/ctrl.png', '',
-                          '')
+                        'images/icons/control/ctrl.png', '',
+                        '')
     jump_key = Button(150, 300, 300, 66, '',
-                          'images/icons/control/space.png', '',
-                          '')
+                      'images/icons/control/space.png', '',
+                      '')
     back_button = Button(WIDTH / 2 - (252 / 2), 450, 252, 74, 'Назад',
-                          'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                          'sound/effects/click_button/click.mp3')
+                         'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                         'sound/effects/click_button/click.mp3')
 
     running_settings_control = True
 
@@ -148,14 +144,10 @@ def controls_menu():
                 pygame.quit()
                 sys.exit()
 
-
-
             if event_menu.type == pygame.USEREVENT and event_menu.button == back_button:
                 running_settings_control = False
 
-
             back_button.handle_event(event_menu)
-
 
         back_button.check_hover(pygame.mouse.get_pos())
         back_button.draw_btn(screen_nemu)
@@ -165,11 +157,12 @@ def controls_menu():
         jump_key.draw_btn(screen_nemu)
         pygame.display.flip()
 
+
 def lose_menu():
     screen_lose = pygame.display.set_mode((1024, 800))
     try_again_button = Button(575, 180, 270, 74, 'Еще раз!',
-                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
-                           'sound/effects/click_button/click.mp3')
+                              'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                              'sound/effects/click_button/click.mp3')
     running_lose = True
 
     while running_lose:
@@ -188,26 +181,27 @@ def lose_menu():
                 pygame.quit()
                 sys.exit()
             if event_lose.type == pygame.USEREVENT and event_lose.button == try_again_button:
-               print('h1')
+                game_start()
+            try_again_button.handle_event(event_lose)
 
         try_again_button.check_hover(pygame.mouse.get_pos())
         try_again_button.draw_btn(screen_lose)
         pygame.display.flip()
 
+
 def game_start():
-    clock = pygame.time.Clock() # переменная для регулировки времени смены кадров
+    clock = pygame.time.Clock()  # переменная для регулировки времени смены кадров
 
-    pygame.init()                                               # инициация игры
-    screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)               # выбор размера экрана
-    pygame.display.set_caption('Бегущий ниндзя')                # название игры (подпись окна)
-    icon = pygame.image.load('images/icons/icon-ninja.png')     # ссылка на загрузку иконки
-    pygame.display.set_icon(icon)                               # установка иконки на приложение
+    pygame.init()  # инициация игры
+    screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)  # выбор размера экрана
+    pygame.display.set_caption('Бегущий ниндзя')  # название игры (подпись окна)
+    icon = pygame.image.load('images/icons/icon-ninja.png')  # ссылка на загрузку иконки
+    pygame.display.set_icon(icon)  # установка иконки на приложение
 
+    bg = pygame.image.load('images/background/background_1.png')  # загрузка заднего фона
 
-    bg = pygame.image.load('images/background/background_1.png') # загрузка заднего фона
-
-    scale_factor = 1.3
-    pygame.transform.scale(main_bg, (int(bg.get_width() * scale_factor), int(bg.get_height() * scale_factor)))
+    #scale_factor = 1.3
+   #pygame.transform.scale(main_bg, (int(bg.get_width() * scale_factor), int(bg.get_height() * scale_factor)))
 
     run_right = [
         pygame.image.load('images/player-right/1.png'),
@@ -220,7 +214,7 @@ def game_start():
         pygame.image.load('images/player-right/8.png'),
         pygame.image.load('images/player-right/9.png'),
         pygame.image.load('images/player-right/10.png')
-    ] # загрузка пошаговой анимации спрайта персонажа движущегося в право
+    ]  # загрузка пошаговой анимации спрайта персонажа движущегося в право
 
     run_left = [
         pygame.image.load('images/player-left/1.png'),
@@ -233,7 +227,7 @@ def game_start():
         pygame.image.load('images/player-left/8.png'),
         pygame.image.load('images/player-left/9.png'),
         pygame.image.load('images/player-left/10.png')
-    ] # загрузка пошаговой анимации спрайта персонажа движущегося в лево
+    ]  # загрузка пошаговой анимации спрайта персонажа движущегося в лево
 
     jump_up = [
         pygame.image.load('images/player-jump/1.png'),
@@ -242,16 +236,15 @@ def game_start():
         pygame.image.load('images/player-jump/4.png'),
     ]  # загрузка прыжка анимации спрайта персонажа
 
-    play_animation_count = 0                                    # счетчик анимации
-
+    play_animation_count = 0  # счетчик анимации
 
     bg_x = 0
     bg_sound = pygame.mixer.Sound('sound/bg/ForestWalk-bg.mp3')
     bg_sound.play()
 
-    player_speed = 40 # скорость перемещения игрока
-    player_x = 150 # координата по Х игрока
-    player_y = 600 # координата по Y игрока
+    player_speed = 40  # скорость перемещения игрока
+    player_x = 150  # координата по Х игрока
+    player_y = 600  # координата по Y игрока
     jump = True
     jump_counter = - 14
 
@@ -259,17 +252,15 @@ def game_start():
 
     enemy_girl_game = []
 
-
-
-    enemy_timer = pygame.USEREVENT + 1 # создаем событие для врага
+    enemy_timer = pygame.USEREVENT + 1  # создаем событие для врага
     pygame.time.set_timer(enemy_timer, 6500)
 
-    on_game = True # игра запущена
+    on_game = True  # игра запущена
 
     label = pygame.font.Font('fonts/VariableFont.ttf', 150)
     lose_label = label.render('YOU LOSE!', False, (193, 196, 199))
     restart_label = label.render('TRY AGAIN!', False, (15, 96, 109))
-    restart_label_rec = restart_label.get_rect(topleft=(1920/1/3, 1080/2))
+    restart_label_rec = restart_label.get_rect(topleft=(1920 / 1 / 3, 1080 / 2))
 
     shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
     shurikens = []
@@ -278,45 +269,44 @@ def game_start():
     shuriken_sound = pygame.mixer.Sound('sound/effects/throw a shuriken/throw.mp3')
     shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
 
-    running = True                                              # переключатель цикла
-    while running:                                              # основной цикл игры
+    running = True  # переключатель цикла
+    while running:  # основной цикл игры
 
-        screen.blit(bg, (bg_x, 0))                            # вывод заднего фона на экран
-        screen.blit(bg, (bg_x + 1920, 0))                     # вывод заднего фона на экран (для анимации)
+        screen.blit(bg, (bg_x, 0))  # вывод заднего фона на экран
+        screen.blit(bg, (bg_x + 1920, 0))  # вывод заднего фона на экран (для анимации)
 
         if on_game:
-            player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y)) # рамка столкновения
+            player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y))  # рамка столкновения
 
             if enemy_girl_game:
-                for (id, enemy) in enumerate(enemy_girl_game): # перебор по объектам и нумерации
+                for (id, enemy) in enumerate(enemy_girl_game):  # перебор по объектам и нумерации
                     screen.blit(enemy_girl, enemy)
                     enemy.x -= 10
 
-                    if enemy.x < - 50: # проверка врага за экраном
+                    if enemy.x < - 50:  # проверка врага за экраном
 
-                        enemy_girl_game.pop(id) # удаление врага из списка
+                        enemy_girl_game.pop(id)  # удаление врага из списка
 
                     if player_rec_collision.colliderect(enemy):
                         on_game = False
 
-
             keys = pygame.key.get_pressed()  # какая клавиша нажата (список)
 
             if keys[pygame.K_LEFT]:
-                screen.blit(run_left[play_animation_count], (player_x, player_y)) # вывод персонажа на экран
+                screen.blit(run_left[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
             else:
                 screen.blit(run_right[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
 
-
-
-            if keys[pygame.K_LEFT] and player_x > 50: # условия в лево для перемещения игрока и ограничение по перемещению
+            if keys[
+                pygame.K_LEFT] and player_x > 50:  # условия в лево для перемещения игрока и ограничение по перемещению
                 player_x -= player_speed
-            elif keys[pygame.K_RIGHT] and player_x < 1500: # условия в право для перемещения игрока и ограничение по перемещению
+            elif keys[
+                pygame.K_RIGHT] and player_x < 1500:  # условия в право для перемещения игрока и ограничение по перемещению
                 player_x += player_speed
 
             if not jump:
                 if keys[pygame.K_SPACE]:
-                    jump = True # флаг прыжка
+                    jump = True  # флаг прыжка
             else:
                 if jump_counter >= - 14:
                     if jump_counter > 0:
@@ -328,7 +318,7 @@ def game_start():
                     jump = False
                     jump_counter = 14
 
-            if play_animation_count == 9:                           # условия перебора спрайтов игрока
+            if play_animation_count == 9:  # условия перебора спрайтов игрока
                 play_animation_count = 0
             else:
                 play_animation_count += 1
@@ -336,8 +326,6 @@ def game_start():
             bg_x -= 10
             if bg_x == -1920:
                 bg_x = 0
-
-
 
             if shurikens:
                 for (i, elem) in enumerate(shurikens):
@@ -359,25 +347,22 @@ def game_start():
         else:
             bg_sound.stop()
             on_game = False
+            running = False
             lose_menu()
-            #if restart_label_rec.collidepoint(where_mouse) and pygame.mouse.get_pressed()[0]:
-                #on_game = True
-                #enemy_girl_game.clear()
-                #bg_sound.play()
-                #shurikens.clear()
-                #shuriken_col = 5
 
+            #enemy_girl_game.clear()
+            #bg_sound.play()
+            #shurikens.clear()
+            #shuriken_col = 5
 
-
-        pygame.display.update()                                 # обновить экран (постоянно из-за цикла)
+        pygame.display.update()  # обновить экран (постоянно из-за цикла)
 
         clock.tick(20)  # FPS
 
-
-        for event in pygame.event.get():                        # перебрать список событий
-            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]: # если нажат крестит или esc
-                running = False                                 # остановить основной цикл
-                pygame.quit()                                   # выходим из приложения
+        for event in pygame.event.get():  # перебрать список событий
+            if event.type == pygame.QUIT or keys[pygame.K_ESCAPE]:  # если нажат крестит или esc
+                running = False  # остановить основной цикл
+                pygame.quit()  # выходим из приложения
             if on_game and event.type == pygame.KEYUP and event.key == pygame.K_LCTRL and shuriken_col > 0:
                 shurikens.append(shuriken.get_rect(topleft=(player_x + 100, player_y + 100)))
                 shuriken_col -= 1
@@ -387,10 +372,6 @@ def game_start():
                 enemy_girl_game.append(enemy_girl.get_rect(topleft=(random.randrange(1800, 2000, 100),
                                                                     random.randrange(200, 600, 50))))
 
+
 main_menu()
 game_start()
-
-
-
-
-
