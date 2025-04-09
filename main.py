@@ -190,18 +190,16 @@ def lose_menu():
 
 
 def game_start():
+    global keys
     clock = pygame.time.Clock()  # переменная для регулировки времени смены кадров
 
     pygame.init()  # инициация игры
     screen = pygame.display.set_mode((1920, 1080), pygame.FULLSCREEN)  # выбор размера экрана
     pygame.display.set_caption('Бегущий ниндзя')  # название игры (подпись окна)
-    icon = pygame.image.load('images/icons/icon-ninja.png')  # ссылка на загрузку иконки
-    pygame.display.set_icon(icon)  # установка иконки на приложение
+    icons = pygame.image.load('images/icons/icon-ninja.png')  # ссылка на загрузку иконки
+    pygame.display.set_icon(icons)  # установка иконки на приложение
 
     bg = pygame.image.load('images/background/background_1.png')  # загрузка заднего фона
-
-    #scale_factor = 1.3
-   #pygame.transform.scale(main_bg, (int(bg.get_width() * scale_factor), int(bg.get_height() * scale_factor)))
 
     run_right = [
         pygame.image.load('images/player-right/1.png'),
@@ -229,13 +227,6 @@ def game_start():
         pygame.image.load('images/player-left/10.png')
     ]  # загрузка пошаговой анимации спрайта персонажа движущегося в лево
 
-    jump_up = [
-        pygame.image.load('images/player-jump/1.png'),
-        pygame.image.load('images/player-jump/2.png'),
-        pygame.image.load('images/player-jump/3.png'),
-        pygame.image.load('images/player-jump/4.png'),
-    ]  # загрузка прыжка анимации спрайта персонажа
-
     play_animation_count = 0  # счетчик анимации
 
     bg_x = 0
@@ -258,9 +249,6 @@ def game_start():
     on_game = True  # игра запущена
 
     label = pygame.font.Font('fonts/VariableFont.ttf', 150)
-    lose_label = label.render('YOU LOSE!', False, (193, 196, 199))
-    restart_label = label.render('TRY AGAIN!', False, (15, 96, 109))
-    restart_label_rec = restart_label.get_rect(topleft=(1920 / 1 / 3, 1080 / 2))
 
     shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
     shurikens = []
@@ -297,11 +285,11 @@ def game_start():
             else:
                 screen.blit(run_right[play_animation_count], (player_x, player_y))  # вывод персонажа на экран
 
-            if keys[
-                pygame.K_LEFT] and player_x > 50:  # условия в лево для перемещения игрока и ограничение по перемещению
+            # условия в лево для перемещения игрока и ограничение по перемещению
+            if keys[pygame.K_LEFT] and player_x > 50:
                 player_x -= player_speed
-            elif keys[
-                pygame.K_RIGHT] and player_x < 1500:  # условия в право для перемещения игрока и ограничение по перемещению
+                # условия в право для перемещения игрока и ограничение по перемещению
+            elif keys[pygame.K_RIGHT] and player_x < 1500:
                 player_x += player_speed
 
             if not jump:
@@ -343,17 +331,19 @@ def game_start():
                                 shurikens.pop(i)
 
 
+
+
+
+
+
+
         # условие проигрыша
+
         else:
             bg_sound.stop()
             on_game = False
             running = False
             lose_menu()
-
-            #enemy_girl_game.clear()
-            #bg_sound.play()
-            #shurikens.clear()
-            #shuriken_col = 5
 
         pygame.display.update()  # обновить экран (постоянно из-за цикла)
 
