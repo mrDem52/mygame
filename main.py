@@ -250,6 +250,7 @@ def game_start():
     enemy_timer = pygame.USEREVENT + 1  # создаем событие для врага
     pygame.time.set_timer(enemy_timer, 6500)
 
+
     on_game = True  # игра запущена
 
     label = pygame.font.Font('fonts/VariableFont.ttf', 150)
@@ -260,6 +261,7 @@ def game_start():
     shuriken_col = 5
     shuriken_sound = pygame.mixer.Sound('sound/effects/throw a shuriken/throw.mp3')
     shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
+    shuriken_up = pygame.mixer.Sound('sound/effects/up_sh/shur_up.mp3')
     pos_sh_x = 600
     pos_sh_y = 300
     dead_enemy = 0
@@ -346,6 +348,7 @@ def game_start():
                 pos_sh_x -= 20
                 if shuriken_col_collision.colliderect(player_rec_collision):
                     shuriken_col = 5
+                    shuriken_up.play()
                     pos_sh_x = random.randrange(1300, 1900, 200)
                     pos_sh_y = random.randrange(300, 800, 50)
 
