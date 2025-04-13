@@ -260,8 +260,8 @@ def game_start():
     shuriken_col = 5
     shuriken_sound = pygame.mixer.Sound('sound/effects/throw a shuriken/throw.mp3')
     shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
-    pos_sh_x = random.randrange(1000, 1920, 200)
-    pos_sh_y = random.randrange(200, 600, 50)
+    pos_sh_x = 600
+    pos_sh_y = 300
 
     running = True  # переключатель цикла
     while running:  # основной цикл игры
@@ -342,6 +342,8 @@ def game_start():
                 pos_sh_x -= 20
                 if shuriken_col_collision.colliderect(player_rec_collision):
                     shuriken_col = 5
+                    pos_sh_x = random.randrange(1000, 1920, 200)
+                    pos_sh_y = random.randrange(200, 600, 50)
 
 
 
