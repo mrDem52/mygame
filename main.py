@@ -262,13 +262,16 @@ def game_start():
     shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
     pos_sh_x = 600
     pos_sh_y = 300
+    dead_enemy = 0
+    font = pygame.font.Font(None, 72)
 
     running = True  # переключатель цикла
     while running:  # основной цикл игры
+        text_surface = font.render(str(dead_enemy), True, (0, 0, 0))
 
         screen.blit(bg, (bg_x, 0))  # вывод заднего фона на экран
         screen.blit(bg, (bg_x + 1920, 0))  # вывод заднего фона на экран (для анимации)
-
+        screen.blit(text_surface, (1800, 100))
         if on_game:
             player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y))  # рамка столкновения
 
@@ -335,6 +338,7 @@ def game_start():
                                 shuriken_climbing.play()
                                 enemy_girl_game.pop(index)
                                 shurikens.pop(i)
+                                dead_enemy += 1
 
             shuriken_col_collision = shuriken.get_rect(topleft=(pos_sh_x, pos_sh_y))
             if shuriken_col == 0:
@@ -342,8 +346,8 @@ def game_start():
                 pos_sh_x -= 20
                 if shuriken_col_collision.colliderect(player_rec_collision):
                     shuriken_col = 5
-                    pos_sh_x = random.randrange(1000, 1920, 200)
-                    pos_sh_y = random.randrange(200, 600, 50)
+                    pos_sh_x = random.randrange(1300, 1900, 200)
+                    pos_sh_y = random.randrange(300, 800, 50)
 
 
 
