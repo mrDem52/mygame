@@ -1,4 +1,8 @@
 import random
+from typing import List
+
+from pygame import Surface, SurfaceType
+
 from menu import Button
 import pygame
 import sys
@@ -201,7 +205,7 @@ def game_start():
 
     bg = pygame.image.load('images/background/background_1.png')  # загрузка заднего фона
 
-    run_right = [
+    run_right: list[Surface | SurfaceType] = [
         pygame.image.load('images/player-right/1.png'),
         pygame.image.load('images/player-right/2.png'),
         pygame.image.load('images/player-right/3.png'),
@@ -256,6 +260,8 @@ def game_start():
     shuriken_col = 5
     shuriken_sound = pygame.mixer.Sound('sound/effects/throw a shuriken/throw.mp3')
     shuriken_climbing = pygame.mixer.Sound('sound/effects/climbing/climbing.mp3')
+    pos_sh_x = random.randrange(1000, 1920, 200)
+    pos_sh_y = random.randrange(200, 600, 50)
 
     running = True  # переключатель цикла
     while running:  # основной цикл игры
@@ -330,10 +336,12 @@ def game_start():
                                 enemy_girl_game.pop(index)
                                 shurikens.pop(i)
 
-
-
-
-
+            shuriken_col_collision = shuriken.get_rect(topleft=(pos_sh_x, pos_sh_y))
+            if shuriken_col == 0:
+                screen.blit(shuriken, (pos_sh_x, pos_sh_y))
+                pos_sh_x -= 20
+                if shuriken_col_collision.colliderect(player_rec_collision):
+                    shuriken_col = 5
 
 
 
