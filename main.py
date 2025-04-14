@@ -242,7 +242,6 @@ def sound_menu():
                 btn.handle_event(event_menu)
 
         for btn in [sound_on_button, sound_off_button, back_button]:
-
             btn.check_hover(pygame.mouse.get_pos())
             btn.draw_btn(screen_nemu)
         pygame.display.flip()
@@ -290,6 +289,7 @@ def game_start():
 
     bg_x = 0
     bg_sound = pygame.mixer.Sound('sound/bg/ForestWalk-bg.mp3')
+    bg_sound.set_volume(0.25)
     if flag_sound:
         bg_sound.play()
 
@@ -311,6 +311,8 @@ def game_start():
     label = pygame.font.Font('fonts/VariableFont.ttf', 150)
 
     shuriken = pygame.image.load('images/weapon/shuriken.png').convert_alpha()
+    shuriken_count = pygame.image.load('images/weapon/shuriken.png')
+    shuriken_count = pygame.transform.scale(shuriken_count,(75, 75))
     shurikens = []
     shuriken_rec_collision = shuriken.get_rect()
     shuriken_col = 5
@@ -320,15 +322,20 @@ def game_start():
     pos_sh_x = 600
     pos_sh_y = 300
     dead_enemy = 0
+
     font = pygame.font.Font(None, 72)
 
     running = True  # переключатель цикла
     while running:  # основной цикл игры
         text_surface = font.render(str(dead_enemy), True, (0, 0, 0))
+        text_count_shurikens = font.render(str(shuriken_col), True, (255, 255, 255))
 
         screen.blit(bg, (bg_x, 0))  # вывод заднего фона на экран
         screen.blit(bg, (bg_x + 1920, 0))  # вывод заднего фона на экран (для анимации)
+
         screen.blit(text_surface, (1800, 100))
+        screen.blit(shuriken_count, (100, 100))
+        screen.blit(text_count_shurikens, (125, 115))
         if on_game:
             player_rec_collision = run_right[0].get_rect(topleft=(player_x, player_y))  # рамка столкновения
 
