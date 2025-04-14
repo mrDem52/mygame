@@ -220,9 +220,9 @@ def sound_menu():
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
         if flag_sound:
-            screen_nemu.blit(sound_on_icon, (200, 200))
+            screen_nemu.blit(sound_on_icon, (200, 210))
         if not flag_sound:
-            screen_nemu.blit(sound_off_icon, (200, 200))
+            screen_nemu.blit(sound_off_icon, (200, 210))
 
         for event_menu in pygame.event.get():
             if event_menu.type == pygame.QUIT:
