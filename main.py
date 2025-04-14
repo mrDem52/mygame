@@ -19,6 +19,10 @@ pygame.display.set_icon(icon)
 
 main_bg = pygame.image.load('images/background/menu/title.png')
 lose_bg = pygame.image.load('images/background/lose/lose.jpg')
+sound_on_icon = pygame.image.load('images/icons/sound/sound_on.png')
+sound_off_icon = pygame.image.load('images/icons/sound/sound_off.png')
+
+flag_sound = True
 
 
 def main_menu():
@@ -99,7 +103,7 @@ def settings_menu():
             if event_menu.type == pygame.USEREVENT and event_menu.button == fifth_button:
                 controls_menu()
             if event_menu.type == pygame.USEREVENT and event_menu.button == fourth_button:
-                print('h1')
+                sound_menu()
 
             for btn in [fourth_button, fifth_button, sixth_button]:
                 btn.handle_event(event_menu)
@@ -193,6 +197,57 @@ def lose_menu():
         pygame.display.flip()
 
 
+def sound_menu():
+    global flag_sound
+    sound_on_button = Button(150, 100, 100, 100, 'ON',
+                             'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                             'sound/effects/click_button/click.mp3')
+
+    sound_off_button = Button(350, 100, 100, 100, 'OFF',
+                              'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                              'sound/effects/click_button/click.mp3')
+    back_button = Button(180, 400, 252, 74, 'Назад',
+                         'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
+                         'sound/effects/click_button/click.mp3')
+    running_sound_menu = True
+    while running_sound_menu:
+
+        screen_nemu.fill((0, 0, 0))
+        screen_nemu.blit(main_bg, (-150, 0))
+
+        font = pygame.font.Font(None, 72)
+        text_surface = font.render('Музыка', True, (0, 0, 0))
+        text_rect = text_surface.get_rect(center=(300, 50))
+        screen_nemu.blit(text_surface, text_rect)
+        if flag_sound:
+            screen_nemu.blit(sound_on_icon, (200, 200))
+        if not flag_sound:
+            screen_nemu.blit(sound_off_icon, (200, 200))
+
+        for event_menu in pygame.event.get():
+            if event_menu.type == pygame.QUIT:
+                running_sound_menu = False
+                pygame.quit()
+                sys.exit()
+            if event_menu.type == pygame.USEREVENT and event_menu.button == sound_on_button:
+                flag_sound = True
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == sound_off_button:
+                flag_sound = False
+
+            if event_menu.type == pygame.USEREVENT and event_menu.button == back_button:
+                running_sound_menu = False
+
+            for btn in [sound_on_button, sound_off_button, back_button]:
+                btn.handle_event(event_menu)
+
+        for btn in [sound_on_button, sound_off_button, back_button]:
+
+            btn.check_hover(pygame.mouse.get_pos())
+            btn.draw_btn(screen_nemu)
+        pygame.display.flip()
+
+
 def game_start():
     global keys
     clock = pygame.time.Clock()  # переменная для регулировки времени смены кадров
@@ -235,7 +290,8 @@ def game_start():
 
     bg_x = 0
     bg_sound = pygame.mixer.Sound('sound/bg/ForestWalk-bg.mp3')
-    bg_sound.play()
+    if flag_sound:
+        bg_sound.play()
 
     player_speed = 40  # скорость перемещения игрока
     player_x = 150  # координата по Х игрока
@@ -249,7 +305,6 @@ def game_start():
 
     enemy_timer = pygame.USEREVENT + 1  # создаем событие для врага
     pygame.time.set_timer(enemy_timer, 6500)
-
 
     on_game = True  # игра запущена
 
