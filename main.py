@@ -13,7 +13,7 @@ WIDTH, HEIGHT = 600, 550
 pygame.init()  # инициация игры
 screen_nemu = pygame.display.set_mode((WIDTH, HEIGHT))  # выбор размера экрана
 
-pygame.display.set_caption('Бегущий ниндзя')  # название игры (подпись окна)
+pygame.display.set_caption('Ниндзя')  # название игры (подпись окна)
 icon = pygame.image.load('images/icons/icon-ninja.png')  # ссылка на загрузку иконки
 pygame.display.set_icon(icon)
 
@@ -42,7 +42,7 @@ def main_menu():
         screen_nemu.blit(main_bg, (-250, -200))
 
         font = pygame.font.Font(None, 72)
-        text_surface = font.render('Бегущий ниндзя', True, (0, 0, 0))
+        text_surface = font.render('Ниндзя', True, (0, 0, 0))
         text_rect = text_surface.get_rect(center=(300, 50))
         screen_nemu.blit(text_surface, text_rect)
 
@@ -75,7 +75,7 @@ def settings_menu():
     fourth_button = Button(WIDTH / 2 - (252 / 2), 100, 252, 74, 'Звук',
                            'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                            'sound/effects/click_button/click.mp3')
-    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Урпавление',
+    fifth_button = Button(WIDTH / 2 - (252 / 2), 200, 252, 74, 'Управление',
                           'images/icons/button/btn-1.png', 'images/icons/button/btn-2.png',
                           'sound/effects/click_button/click.mp3')
     sixth_button = Button(WIDTH / 2 - (252 / 2), 300, 252, 74, 'Назад',
